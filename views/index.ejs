@@ -428,9 +428,21 @@
          if (response.ok) return response.json()
        })
        .then(data => {
-       this.setState({
+	   //console.log(data.length);
+	   var element = document.getElementById('sec');
+	   var Belement = document.getElementById('asec');
+	   if(data.length==0){
+	   element.style.display="none";
+	   Belement.style.display="block"
+	   }
+	   else{
+	   element.style.display="block";
+	   Belement.style.display="none"
+	   this.setState({
       taskDetails: data
        });
+	   }
+       
        //console.log(this.state.taskDetails)
        })
       
@@ -447,9 +459,20 @@
        })
        .then(data => {
 	   //console.log(data);
-       this.setState({
+	   var element = document.getElementById('csec');
+	   var Belement = document.getElementById('acsec');
+	   if(data.length==0) {
+	   element.style.display="none";
+	   Belement.style.display="block"
+	   }
+	   else{
+	   element.style.display="block";
+	   Belement.style.display="none";
+	   this.setState({
       CtaskDetails: data
        });
+	   }
+       
        //console.log("Hello"+this.state.CtaskDetails)
        })
       
@@ -508,13 +531,14 @@
       
       },
 	  
-	  completeTasks: function(key,text,sdate){
+	  completeTasks: function(okey,text,sdate){
 	  
 	  fetch('completedTasks', {
          method: 'post',
          headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
-           'key': key,
+	  		'key':new Date()+1,
+           'oldKey': okey,
 		   'text':text,
 		   'sdate': sdate
          })
@@ -538,7 +562,7 @@
       	return(
       		<div>
       	<h4>Check Your To-Do List</h4>
-      		<section className="todo">	
+      		<section className="todo" id='sec'>	
       		<ul className="todo-list">
       		{this.props.tasks.map((key) =>
       		<li className="done" key={key.key} >
@@ -548,6 +572,10 @@
         </li> )}
         </ul>
       		</section>
+			<div className="alert alert-warning alert-dismissable" id="asec" style={{display:'none'}}>
+    <a href="#" className="close" data-dismiss="alert" aria-label="close">×</a>
+    <strong>Warning!</strong> You have not added anything..
+  </div>
       		</div>
       );
       }
@@ -583,7 +611,7 @@
       	return(
       		<div>
       	<h4><span className="glyphicon glyphicon-ok"></span> Check Your Completed Tasks</h4>
-		<section className="todo">	
+		<section className="todo" id="csec">	
       		<ul className="todo-list">
       		{this.props.Ctasks.map((key) =>
       		<li className="done" key={key.key} >
@@ -592,7 +620,10 @@
         </li> )}
         </ul>
       		</section>
-      		
+			<div className="alert alert-info alert-dismissable" id="acsec" style={{display:'none'}}>
+    <a href="#" className="close" data-dismiss="alert" aria-label="close">×</a>
+    <strong>Warning!</strong> Nothing to show here..
+  </div>	
       		</div>
       );
       }

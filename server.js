@@ -56,7 +56,7 @@ res.send(result)
 
 app.post('/completedTasks', (req, res) => {
 	
-	db.collection('tasks').findOneAndDelete({key: req.body.key},
+	db.collection('tasks').findOneAndDelete({key: req.body.oldKey},
 (err, result) => {
 if (err)  {return res.send(500, err) }
 var d = new Date();
