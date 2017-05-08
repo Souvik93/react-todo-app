@@ -419,6 +419,7 @@
       },
       
       getTasks: function(e){
+	  console.log("Get task method");
       
       fetch('getTasks', {
          method: 'get',
@@ -429,6 +430,7 @@
        })
        .then(data => {
 	   //console.log(data.length);
+	   this.CgetTasks();
 	   var element = document.getElementById('sec');
 	   var Belement = document.getElementById('asec');
 	   if(data.length==0){
@@ -479,10 +481,12 @@
       },
       render: function() {
 	  //console.log("Hello"+this.state.CtaskDetails);
-      this.getTasks();
-      this.CgetTasks();
+      
+      //this.CgetTasks();
       return (
       	<div>
+		{this.getTasks()}
+		
       	<div className="col-md-12 col-xs-6">
       	<form>
       	<div className="form-group">
@@ -566,7 +570,7 @@
       		<ul className="todo-list">
       		{this.props.tasks.map((key) =>
       		<li className="done" key={key.key} >
-      		<h6><strong>{key.text} </strong> (<small>{key.sdate} {key.key}</small>)</h6>
+      		<h6><strong>{key.text} </strong> (<small>{key.sdate} </small>)</h6>
       		<a className="glyphicon glyphicon-ok-circle" title="Done" onClick={this.completeTasks.bind(this,key.key,key.text,key.sdate)}></a>
       		<a className="glyphicon glyphicon-remove-circle" onClick={this.deleteTasks.bind(this,key.key)} title="Delete it"></a>
         </li> )}
@@ -617,7 +621,7 @@
       		<ul className="todo-list">
       		{this.props.Ctasks.map((key) =>
       		<li className="done" key={key.key} >
-      		<h5><strong><del>{key.text}</del></strong>{key.key} {key.oldKey}</h5>
+      		<h5><strong><del>{key.text}</del></strong></h5>
 			<h6><small>Completed Date:{key.completedDate}</small> <a className="glyphicon glyphicon-remove" onClick={this.deleteCompletedTasks.bind(this,key.key)} title="Delete it"></a></h6>
         </li> )}
         </ul>
