@@ -458,7 +458,7 @@
          if (response.ok) return response.json()
        })
        .then(data => {
-	   //console.log(data);
+	   console.log('From get complete tasks method');
 	   var element = document.getElementById('csec');
 	   var Belement = document.getElementById('acsec');
 	   if(data.length==0) {
@@ -537,7 +537,7 @@
          method: 'post',
          headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
-	  		'key':new Date()+1,
+	  		'key':Date.now(),
            'oldKey': okey,
 		   'text':text,
 		   'sdate': sdate
@@ -566,7 +566,7 @@
       		<ul className="todo-list">
       		{this.props.tasks.map((key) =>
       		<li className="done" key={key.key} >
-      		<h6><strong>{key.text} </strong> (<small>{key.sdate}</small>)</h6>
+      		<h6><strong>{key.text} </strong> (<small>{key.sdate} {key.key}</small>)</h6>
       		<a className="glyphicon glyphicon-ok-circle" title="Done" onClick={this.completeTasks.bind(this,key.key,key.text,key.sdate)}></a>
       		<a className="glyphicon glyphicon-remove-circle" onClick={this.deleteTasks.bind(this,key.key)} title="Delete it"></a>
         </li> )}
@@ -581,10 +581,12 @@
       }
       });
 	  
-	   var ToDoCList=React.createClass({       
+	   var ToDoCList=React.createClass({
+	   
+	   
        deleteCompletedTasks: function(e){
        //console.log(e);
-      fetch('tasks', {
+      fetch('completedTasks', {
          method: 'delete',
          headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
@@ -615,7 +617,7 @@
       		<ul className="todo-list">
       		{this.props.Ctasks.map((key) =>
       		<li className="done" key={key.key} >
-      		<h5><strong><del>{key.text}</del></strong></h5>
+      		<h5><strong><del>{key.text}</del></strong>{key.key} {key.oldKey}</h5>
 			<h6><small>Completed Date:{key.completedDate}</small> <a className="glyphicon glyphicon-remove" onClick={this.deleteCompletedTasks.bind(this,key.key)} title="Delete it"></a></h6>
         </li> )}
         </ul>

@@ -48,7 +48,7 @@ res.send(result)
 })
 
 app.get('/getCompletedTasks', (req, res) => {
-db.collection('completedTasks').find().toArray((err, result) => {
+db.collection('completedTask').find().toArray((err, result) => {
 if (err) return console.log(err)
 res.send(result)
 })
@@ -62,7 +62,7 @@ if (err)  {return res.send(500, err) }
 var d = new Date();
 var month=parseInt(d.getMonth())+1;
 req.body.completedDate=d.getDate()+"-"+month+"-"+d.getFullYear();
-db.collection('completedTasks').save(req.body, (err, result) => {
+db.collection('completedTask').save(req.body, (err, result) => {
 if (err) return console.log(err)
 console.log('saved to Completed Tasks database')
 res.send(result)
@@ -70,7 +70,7 @@ res.send(result)
 })
 })
 app.delete('/completedTasks', (req, res) => {
-db.collection('completedTasks').findOneAndDelete({key: req.body.key},
+db.collection('completedTask').findOneAndDelete({key: req.body.key},
 (err, result) => {
 if (err) return res.send(500, err)
 res.send(result)
