@@ -40,9 +40,39 @@ if (err) return res.send(500, err)
 res.send(result)
 })
 })
-app.get('/api/getTasks', (req, res) => {
+app.get('/getTasks', (req, res) => {
 db.collection('tasks').find().toArray((err, result) => {
 if (err) return console.log(err)
+res.send(result)
+})
+})
+
+app.get('/getCompletedTasks', (req, res) => {
+db.collection('completedTasks').find().toArray((err, result) => {
+if (err) return console.log(err)
+res.send(result)
+})
+})
+
+app.post('/completedTasks', (req, res) => {
+	
+	db.collection('tasks').findOneAndDelete({key: req.body.key},
+(err, result) => {
+if (err)  {return res.send(500, err) }
+var d = new Date();
+var month=parseInt(d.getMonth())+1;
+req.body.completedDate=d.getDate()+"-"+month+"-"+d.getFullYear();
+db.collection('completedTasks').save(req.body, (err, result) => {
+if (err) return console.log(err)
+console.log('saved to Completed Tasks database')
+res.send(result)
+})
+})
+})
+app.delete('/completedTasks', (req, res) => {
+db.collection('completedTasks').findOneAndDelete({key: req.body.key},
+(err, result) => {
+if (err) return res.send(500, err)
 res.send(result)
 })
 })

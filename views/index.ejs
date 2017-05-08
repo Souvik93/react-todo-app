@@ -273,6 +273,12 @@
          color:green;
          font-size: 2em;
          }
+		  .glyphicon-remove{
+			  color:red;
+		  }
+		  .glyphicon-remove:hover{
+			  color:red;
+		  }
          .links { zoom: 1 }
          .links:before, .links:after {
          content: "";
@@ -297,7 +303,14 @@
       <!--  <script type="text/babel" src="App.jsx"></script>-->
    </head>
    <body>
-      <nav class="navbar navbar-default">
+      
+      <div class="container">
+		  
+		 <div class="row">
+		  
+		  <div class="col-md-12">
+			 
+		 <nav class="navbar navbar-default">
          <ul class="nav navbar-nav">
             <li><a ui-sref="form"> <span
                class="glyphicon glyphicon-home"></span> Home
@@ -334,25 +347,28 @@
             		class="glyphicon glyphicon-log-out"></span> LogOut</a></li>
             </ul>-->
       </nav>
-      <div class="container">
-         <div>
-            <div class="row">
-               <div class="col-md-12">
-               </div>
-            </div>
+         
+ 	 
+			 </div>
+		  </div>
+		 
             <div class="row center">
                <div class="col-md-12">
                   <div ui-view></div>
                </div>
             </div>
-         </div>
+        
          <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-12 col-xs-12">
                <marquee behavior="alternate">
                   <h4>To-Do App By Souvik, Database-Moongo Db , Server- Express , UI- React.JS , Backend- JavaScript</h4>
                </marquee>
-               <div id="reactContainer"></div>
+             
             </div>
+			
+			 
+			   <div id="reactContainer"></div>
+			 
          </div>
       </div>
    </body>
@@ -362,8 +378,9 @@
       getInitialState:function() {
          return {
            task: [],
-        result:"",
-        taskDetails:[]
+        result:"Hi",
+        taskDetails:[],
+		CtaskDetails:[]
          };
        },
       
@@ -383,9 +400,16 @@
          if (response.ok) return response.json()
        })
        .then(data => {
+	   
+	    var element = document.getElementById('id');
+  element.style.display = "block";
+	   
        this.setState({
       result: "Data Inserted Succesfully"
        });
+	   setTimeout(function() {
+    element.style.display = "none";
+  }, 5000); 
        })
       	
        this.setState({
@@ -396,7 +420,7 @@
       
       getTasks: function(e){
       
-      fetch('api/getTasks', {
+      fetch('getTasks', {
          method: 'get',
          headers: {'Content-Type': 'application/json'},
        })
@@ -411,13 +435,32 @@
        })
       
       },
+	  
+	   CgetTasks: function(e){
       
+      fetch('getCompletedTasks', {
+         method: 'get',
+         headers: {'Content-Type': 'application/json'},
+       })
+       .then(response => {
+         if (response.ok) return response.json()
+       })
+       .then(data => {
+	   //console.log(data);
+       this.setState({
+      CtaskDetails: data
+       });
+       //console.log("Hello"+this.state.CtaskDetails)
+       })
+      
+      },
       render: function() {
+	  //console.log("Hello"+this.state.CtaskDetails);
       this.getTasks();
-      
+      this.CgetTasks();
       return (
       	<div>
-      	<div className="col-md-12">
+      	<div className="col-md-12 col-xs-6">
       	<form>
       	<div className="form-group">
       	<h4>What do you want to do today?</h4>
@@ -426,26 +469,27 @@
       		  </div>
       		  
       		  <button type="button" className= "btn btn-success" onClick={this.addTasks}>Add Now</button>
-      	<div> <h6>{this.state.result}</h6></div>
+      	<div style={{display: 'none'}} id='id' className="alert alert-success"> <h6>{this.state.result}</h6></div>
       	
       	</form>
       	</div>
-      		<div className="col-md-6">
+      		<div className="col-md-6 col-xs-6">
       	   <ToDoList tasks={this.state.taskDetails}> </ToDoList>
       	   </div>
+		   
+		   <div className="col-md-6 col-xs-6">
+      	   <ToDoCList Ctasks={this.state.CtaskDetails}> </ToDoCList>
+      	   </div>
+		  
       	
       	</div>
          );
        }
       });
       
-      var ToDoList=React.createClass({
-      
-      
-      
-      
+      var ToDoList=React.createClass({       
        
-       deleteTasks: function(e){
+	   deleteTasks: function(e){
        //console.log(e);
       fetch('tasks', {
          method: 'delete',
@@ -463,8 +507,27 @@
        })
       
       },
-       
-      
+	  
+	  completeTasks: function(key,text,sdate){
+	  
+	  fetch('completedTasks', {
+         method: 'post',
+         headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+           'key': key,
+		   'text':text,
+		   'sdate': sdate
+         })
+       })
+       .then(response => {
+         if (response.ok) return response.json()
+       })
+       .then(data => {
+       //alert("task deleted");
+       //console.log(this.state.taskDetails)
+       })
+	  
+	  },
       render: function(){
       			//console.log(this.props.tasks);
       		  var todoEntries = this.props.tasks;
@@ -480,7 +543,7 @@
       		{this.props.tasks.map((key) =>
       		<li className="done" key={key.key} >
       		<h6><strong>{key.text} </strong> (<small>{key.sdate}</small>)</h6>
-      		<a className="glyphicon glyphicon-ok-circle" title="Done"></a>
+      		<a className="glyphicon glyphicon-ok-circle" title="Done" onClick={this.completeTasks.bind(this,key.key,key.text,key.sdate)}></a>
       		<a className="glyphicon glyphicon-remove-circle" onClick={this.deleteTasks.bind(this,key.key)} title="Delete it"></a>
         </li> )}
         </ul>
@@ -489,8 +552,51 @@
       );
       }
       });
+	  
+	   var ToDoCList=React.createClass({       
+       deleteCompletedTasks: function(e){
+       //console.log(e);
+      fetch('tasks', {
+         method: 'delete',
+         headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+           'key': e
+         })
+       })
+       .then(response => {
+         if (response.ok) return response.json()
+       })
+       .then(data => {
+       //alert("task deleted");
+       //console.log(this.state.taskDetails)
+       })
       
-      
+      },
+      render: function(){
+      			//console.log(this.props.Ctasks);
+      		  var todoEntries = this.props.Ctasks;
+			  //console.log(todoEntries);
+      		function createTasks(item) {
+           return <li key={item.key}>{item.text}</li>
+         }
+      	var listItems = todoEntries.map(createTasks);
+      	return(
+      		<div>
+      	<h4><span className="glyphicon glyphicon-ok"></span> Check Your Completed Tasks</h4>
+		<section className="todo">	
+      		<ul className="todo-list">
+      		{this.props.Ctasks.map((key) =>
+      		<li className="done" key={key.key} >
+      		<h5><strong><del>{key.text}</del></strong></h5>
+			<h6><small>Completed Date:{key.completedDate}</small> <a className="glyphicon glyphicon-remove" onClick={this.deleteCompletedTasks.bind(this,key.key)} title="Delete it"></a></h6>
+        </li> )}
+        </ul>
+      		</section>
+      		
+      		</div>
+      );
+      }
+      });
       ReactDOM.render(<ToDoForm />, document.getElementById('reactContainer'));  
       
    </script>
