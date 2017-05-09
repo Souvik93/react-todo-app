@@ -458,7 +458,7 @@
 		var Belement = document.getElementById('asec')
 		element.style.display="none";
 		loadScreen.style.display="block";
-		loadScreen.style.display="none";
+		Belement.style.display="none";
       	smpl.push({text: this._inputElement.value,
            key: Date.now(),
 		   deadline: this.deadline.value});
@@ -689,7 +689,7 @@
         </li> )}
         </ul>
       		</section>
-			<div className="loader" id="imgR" style={{display:'none'}}>Loading.....</div>
+			<div className="loader" id="imgR" style={{display:'none'}} >Loading.....</div>
 			<div className="alert alert-warning alert-dismissable" id="asec" style={{display:'none'}}>
     <a href="#" className="close" data-dismiss="alert" aria-label="close">×</a>
     <strong>Warning!</strong> You have not added anything..
