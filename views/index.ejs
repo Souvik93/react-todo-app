@@ -394,7 +394,10 @@
       
       addTasks: function(e){
       	var smpl=this.state.task;
-		console.log(this.deadline.value);
+		var loadScreen = document.getElementById('imgR');
+		var element = document.getElementById('sec');
+		element.style.display="none";
+		loadScreen.style.display="block";
       	smpl.push({text: this._inputElement.value,
            key: Date.now(),
 		   deadline: this.deadline.value});
@@ -411,7 +414,8 @@
          if (response.ok) return response.json()
        })
        .then(data => {
-	   
+	    //element.style.display="block";
+		loadScreen.style.display="none";
 	    var element = document.getElementById('id');
   element.style.display = "block";
 	   
@@ -624,6 +628,7 @@
         </li> )}
         </ul>
       		</section>
+			<img src="http://preloaders.net/preloaders/287/Filling%20broken%20ring.gif" id="imgR" style={{display:'none'}}></img>
 			<div className="alert alert-warning alert-dismissable" id="asec" style={{display:'none'}}>
     <a href="#" className="close" data-dismiss="alert" aria-label="close">×</a>
     <strong>Warning!</strong> You have not added anything..
