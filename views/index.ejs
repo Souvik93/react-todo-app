@@ -509,8 +509,22 @@
    </body>
    <script type="text/babel">
       var ToDoForm = React.createClass({ 
-	  
 	   componentWillMount: function() {
+	   fetch('getUserName', {
+         method: 'get',
+         headers: {'Content-Type': 'application/json'},
+         
+       })
+	    .then(response => {
+         if (response.ok) return response.json()
+       })
+       .then(data => {
+	    //element.style.display="block";
+		//console.log(data);
+		this.setState({
+      uName: data.username
+       });
+	   })
       this.getTasks();
 	  
    },
@@ -521,7 +535,8 @@
            task: [],
         result:"Hi",
         taskDetails:[],
-		CtaskDetails:[]
+		CtaskDetails:[],
+		uName:""
          };
        },
       
@@ -642,14 +657,14 @@
       	<div className="col-md-9 col-xs-12">
       	<form>
       	<div className="form-group">
-      	<h4>What do you want to do today?</h4>
-             <input type="text" ref={(a) => this._inputElement = a} className="form-control" placeholder="ex- buy new smartphone for friend">
+      	<h4>{this.state.uName},What do you want to do today?</h4>
+             <input type="text" ref={(a) => this._inputElement = a} className="form-control" placeholder="ex- buy new smartphone for friend" name="uname">
                    </input>
       		  </div>
 			  
 		<div className="form-group">
       	<h4>Expected Task Completion Date</h4>
-             <input type="date" ref={(b) => this.deadline = b} className="form-control" >
+             <input type="date" ref={(b) => this.deadline = b} className="form-control" name="pwd" >
                    </input>
       		  </div>
       		  
@@ -667,8 +682,6 @@
 		   <div className="col-md-6 col-xs-12">
       	   <ToDoCList Ctasks={this.state.CtaskDetails} cGetTasks={this.CgetTasks}> </ToDoCList>
       	   </div>
-		  
-      	
       	</div>
          );
        }
