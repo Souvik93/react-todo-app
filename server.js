@@ -49,13 +49,7 @@ else{
 	console.log(userName);
 	res.render('index.ejs')
 }		
-
-
 })
-	
-	
-	
-
 })
 
 
@@ -101,6 +95,7 @@ if (err)  {return res.send(500, err) }
 var d = new Date();
 var month=parseInt(d.getMonth())+1;
 req.body.completedDate=d.getFullYear()+"-"+month+"-"+d.getDate();
+req.body.username=userName;
 db.collection('completedTask').save(req.body, (err, result) => {
 if (err) return console.log(err)
 console.log('saved to Completed Tasks database')
