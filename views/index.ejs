@@ -665,7 +665,7 @@
       	   </div>
 		   
 		   <div className="col-md-6 col-xs-12">
-      	   <ToDoCList Ctasks={this.state.CtaskDetails} getTasks={this.getTasks}> </ToDoCList>
+      	   <ToDoCList Ctasks={this.state.CtaskDetails} cGetTasks={this.CgetTasks}> </ToDoCList>
       	   </div>
 		  
       	
@@ -807,7 +807,7 @@
        .then(data => {
        //alert("task deleted");
        //console.log(this.state.taskDetails)
-	   this.props.getTasks();
+	   this.props.cGetTasks();
        })
       
       },
@@ -829,7 +829,7 @@
        .then(data => {
 	   Belement.style.display="block"
 		loadScreen.style.display="none";
-	   this.props.getTasks();
+	   this.props.cGetTasks();
        })
       
       },
