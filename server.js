@@ -25,8 +25,9 @@ res.render('index.ejs')
 })
 app.post('/tasks', (req, res) => {
 var d = new Date();
+	console.log(req.body.deadline)
 var month=parseInt(d.getMonth())+1;
-req.body.sdate=d.getDate()+"-"+month+"-"+d.getFullYear();
+req.body.sdate=d.getFullYear()+"-"+month+"-"+d.getDate();
 db.collection('tasks').save(req.body, (err, result) => {
 if (err) return console.log(err)
 console.log('saved to database')
@@ -61,7 +62,7 @@ app.post('/completedTasks', (req, res) => {
 if (err)  {return res.send(500, err) }
 var d = new Date();
 var month=parseInt(d.getMonth())+1;
-req.body.completedDate=d.getDate()+"-"+month+"-"+d.getFullYear();
+req.body.completedDate=d.getFullYear()+"-"+month+"-"+d.getDate();
 db.collection('completedTask').save(req.body, (err, result) => {
 if (err) return console.log(err)
 console.log('saved to Completed Tasks database')
@@ -70,9 +71,24 @@ res.send(result)
 })
 })
 app.delete('/completedTasks', (req, res) => {
-db.collection('completedTask').findOneAndDelete({key: req.body.key},
+db.collection('completedTask').findOneAndDelete({key:req.body.key},
 (err, result) => {
 if (err) return res.send(500, err)
 res.send(result)
 })
 })
+app.delete('/deleteAllCompletedTasks', (req, res) => {
+db.collection('completedTask').remove({},
+(err, result) => {
+if (err) return res.send(500, err)
+res.send(result)
+})
+})
+app.delete('/deleteAllTasks', (req, res) => {
+db.collection('tasks').remove({},
+(err, result) => {
+if (err) return res.send(500, err)
+res.send(result)
+})
+})
+
