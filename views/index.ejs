@@ -700,7 +700,7 @@
        //console.log(e);
 	   var loadScreen = document.getElementById('imgR');
 		var element = document.getElementById('sec');
-		//var Belement = document.getElementById('acsec')
+		var Belement = document.getElementById('asec')
 		element.style.display="none";
 		loadScreen.style.display="block";
 		//Belement.style.display="none";
@@ -712,7 +712,7 @@
          if (response.ok) return response.json()
        })
        .then(data => {
-	   element.style.display="block";
+	   Belement.style.display="block";
 		loadScreen.style.display="none";
        //alert("task deleted");
        //console.log(this.state.taskDetails)
@@ -827,7 +827,7 @@
          if (response.ok) return response.json()
        })
        .then(data => {
-	   element.style.display="block";
+	   Belement.style.display="block"
 		loadScreen.style.display="none";
 	   this.props.getTasks();
        })
