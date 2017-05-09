@@ -1,0 +1,90 @@
+<html>
+
+<head>
+	<script src="https://unpkg.com/react@15.3.2/dist/react.js"></script>
+    <script src="https://unpkg.com/react-dom@15.3.2/dist/react-dom.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+	
+	<script type="text/babel">
+	
+	 var LogIn = React.createClass({ 
+	   componentWillMount: function() {
+      //this.getTasks()
+	  
+	  console.log("Hello");
+	  
+   },
+
+ 
+      
+      logIn: function(e){
+      	
+        fetch('logIn', {
+         method: 'post',
+         headers: {'Content-Type': 'application/json'},
+         body: JSON.stringify({
+           'text': this.username.value,
+           'key': Date.now(),
+		   'deadline':this.password.value
+         })
+       })
+      },
+      
+      render: function() {
+	  //console.log("Hello"+this.state.CtaskDetails);
+      
+      //this.CgetTasks();
+      return (
+      	<div>
+      	<div className="col-md-9 col-xs-12">
+      	<form action="logIn" method="POST">
+      	<div className="form-group">
+		
+		<input type="text" ref={(a) => this.username = a} className="form-control" placeholder="Please Provide Your Username." name="username">
+        </input>
+		
+		</div>
+      		  
+		<div className="form-group">
+      	<input type="password" name="password" ref={(b) => this.password = b} className="form-control" placeholder="Please Provide Your Username.">
+        </input>
+
+		</div>
+      		  
+      		  <button type="sub,it" className= "btn btn-success">LogIn Now</button>
+      	</form>
+      	</div>
+		</div>
+		 );
+       }
+      });
+	
+	
+	
+	ReactDOM.render(<LogIn />, document.getElementById('reactLogInContainer'));
+	</script>
+	
+	
+	</head>
+
+	<body>
+		<div class="container">
+		<div class="row">
+<h4>Welcome To Our Page..... Please Provide Your Login Details....</h4>	
+		
+		<div id="reactLogInContainer"></div>		
+			
+			</div>
+		
+		</div>
+	
+	
+	
+	</body>
+
+</html>
