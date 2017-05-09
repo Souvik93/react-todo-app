@@ -645,19 +645,17 @@
        })
       
       },
+	 
       render: function() {
 	  //console.log("Hello"+this.state.CtaskDetails);
       
       //this.CgetTasks();
       return (
       	<div>
-		{this.getTasks}
-		
-		
       	<div className="col-md-9 col-xs-12">
       	<form>
       	<div className="form-group">
-      	<h4>{this.state.uName},What do you want to do today?</h4>
+      	<h4>{this.state.uName},What do you want to do today?</h4> <a href="logOut">LogOut</a>
              <input type="text" ref={(a) => this._inputElement = a} className="form-control" placeholder="ex- buy new smartphone for friend" name="uname">
                    </input>
       		  </div>

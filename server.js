@@ -28,7 +28,7 @@ app.get('/getUserName', (req, res) => {
 res.send(response2);
 })
 
-app.post('/logOut', (req, res) => {
+app.get('/logOut', (req, res) => {
 	userName="";
 	//response2.username=userName;
 res.render('File.ejs')
@@ -87,7 +87,7 @@ res.send(result)
 })
 
 app.get('/getCompletedTasks', (req, res) => {
-db.collection('completedTask').find().toArray((err, result) => {
+db.collection('completedTask').find({username:userName}).toArray((err, result) => {
 if (err) return console.log(err)
 res.send(result)
 })
