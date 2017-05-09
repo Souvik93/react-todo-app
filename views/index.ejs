@@ -698,6 +698,12 @@
 	  
 	  deleteAllTasks: function(e){
        //console.log(e);
+	   var loadScreen = document.getElementById('imgR');
+		var element = document.getElementById('sec');
+		//var Belement = document.getElementById('acsec')
+		element.style.display="none";
+		loadScreen.style.display="block";
+		//Belement.style.display="none";
       fetch('deleteAllTasks', {
          method: 'delete',
          headers: {'Content-Type': 'application/json'}
@@ -706,6 +712,8 @@
          if (response.ok) return response.json()
        })
        .then(data => {
+	   element.style.display="block";
+		loadScreen.style.display="none";
        //alert("task deleted");
        //console.log(this.state.taskDetails)
 	    this.props.getTasks();
@@ -805,6 +813,12 @@
       },
 	  deleteAllCompletedTasks: function(e){
        //console.log(e);
+	   var loadScreen = document.getElementById('loaderForCompleteTask');
+		var element = document.getElementById('csec');
+		//var Belement = document.getElementById('acsec')
+		element.style.display="none";
+		loadScreen.style.display="block";
+		
       fetch('deleteAllCompletedTasks', {
          method: 'delete',
          headers: {'Content-Type': 'application/json'}
@@ -813,8 +827,8 @@
          if (response.ok) return response.json()
        })
        .then(data => {
-       //alert("task deleted");
-       //console.log(this.state.taskDetails)
+	   element.style.display="block";
+		loadScreen.style.display="none";
 	   this.props.getTasks();
        })
       
