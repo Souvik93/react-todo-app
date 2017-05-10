@@ -7,6 +7,11 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static('public'));
 app.use(bodyParser.json());
 app.set('view engine', 'ejs');
+//app.use('/scripts', express.static(__dirname+'/node_modules/'));
+//app.use(express.static('views'))
+app.use("/views", express.static(__dirname + "/views"));
+app.use("/public", express.static(__dirname + "/public"));
+app.use("/node_modules/", express.static(__dirname + "/node_modules/"));
 var db;
 var localDB='mongodb://localhost:27017/exampleDb';
 var cloudDB='mongodb://souvik:password@ds117271.mlab.com:17271/souvik'
@@ -19,7 +24,7 @@ console.log('listening on 3000')
 })
 })
 app.get('/', (req, res) => {
-res.render('File.ejs')
+res.render('home.ejs')
 })
 
 app.get('/getUserName', (req, res) => {
@@ -31,6 +36,9 @@ res.send(response2);
 app.get('/logOut', (req, res) => {
 	userName="";
 	//response2.username=userName;
+	
+	//localStorage.removeItem("");
+	
 res.render('File.ejs')
 })
 
@@ -58,7 +66,6 @@ var d = new Date();
 	console.log(req.body.deadline)
 var month=parseInt(d.getMonth())+1;
 req.body.sdate=d.getFullYear()+"-"+month+"-"+d.getDate();
-req.body.username=userName;
 db.collection('tasks').save(req.body, (err, result) => {
 if (err) return console.log(err)
 console.log('saved to database')
@@ -72,16 +79,19 @@ if (err) return res.send(500, err)
 res.send(result)
 })
 })
-app.get('/getTasks', (req, res) => {
-db.collection('tasks').find({username:userName}).toArray((err, result) => {
+app.get('/getTasks/:uName', (req, res) => {
+	console.log(req.params.uName);
+db.collection('tasks').find({username:req.params.uName}).toArray((err, result) => {
 if (err) return console.log(err)
+
 console.log(result);
 res.send(result)
 })
 })
 
-app.get('/getCompletedTasks', (req, res) => {
-db.collection('completedTask').find({username:userName}).toArray((err, result) => {
+app.get('/getCompletedTasks/', (req, res) => {
+	console.log(req.query.uName);
+db.collection('completedTask').find({username:req.query.uName}).toArray((err, result) => {
 if (err) return console.log(err)
 res.send(result)
 })
@@ -95,7 +105,6 @@ if (err)  {return res.send(500, err) }
 var d = new Date();
 var month=parseInt(d.getMonth())+1;
 req.body.completedDate=d.getFullYear()+"-"+month+"-"+d.getDate();
-req.body.username=userName;
 db.collection('completedTask').save(req.body, (err, result) => {
 if (err) return console.log(err)
 console.log('saved to Completed Tasks database')
@@ -125,4 +134,3 @@ console.log(result);
 res.send(result)
 })
 })
-

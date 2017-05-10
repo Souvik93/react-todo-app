@@ -10,6 +10,9 @@
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	
 	
+	<link href="assets/css/logInStyle.css" rel="stylesheet">
+	
+	
 	<script type="text/babel">
 	
 	 var LogIn = React.createClass({ 
@@ -23,16 +26,15 @@
  
       
       logIn: function(e){
+	  console.log("Hello World");
+	  
+	  
       	
-        fetch('logIn', {
-         method: 'post',
-         headers: {'Content-Type': 'application/json'},
-         body: JSON.stringify({
-           'text': this.username.value,
-           'key': Date.now(),
-		   'deadline':this.password.value
-         })
-       })
+         
+		 var x=document.getElementById("uname").value;
+		 localStorage.setItem("username", x);
+		 //console.log(x);
+		 document.getElementById("myForm").submit();
       },
       
       render: function() {
@@ -41,24 +43,37 @@
       //this.CgetTasks();
       return (
       	<div>
-      	<div className="col-md-9 col-xs-12">
-      	<form action="logIn" method="POST">
-      	<div className="form-group">
+      	
 		
-		<input type="text" ref={(a) => this.username = a} className="form-control" placeholder="Please Provide Your Username." name="username">
-        </input>
+		<div >
+		<div className="logo">Please Provide Your LogIn Credential</div>
+		<div className="login-form-1">
+		<form className="text-left" id="myForm" action="logIn" method="POST">
+			<div className="login-form-main-message"></div>
+			<div className="main-login-form">
+				<div className="login-group">
+					<div className="form-group">
+						<label  className="sr-only">Username</label>
+						<input id="uname" name="username" ref={(a) => this.username = a} className="form-control" className="form-control" type="text" placeholder="Your UserName"></input>
+					</div>
+					<div className="form-group">
+						<label  className="sr-only">Password</label>
+						<input type="password" name="password" className="form-control" ref={(b) => this.password = b} id="lg_password" placeholder="password"></input>
+					</div>
+				</div>
+				<button type="button" className="login-button" onClick={this.logIn}><i className="fa fa-chevron-right"></i></button>
+			</div>
+			<div className="etc-login-form">
+				<p>forgot your password? <a href="#">click here</a></p>
+				<p>new user? <a href="#">create new account</a></p>
+			</div>
+		</form>
+	</div>
+	</div>
+	
+	
 		
-		</div>
-      		  
-		<div className="form-group">
-      	<input type="password" name="password" ref={(b) => this.password = b} className="form-control" placeholder="Please Provide Your Username.">
-        </input>
-
-		</div>
-      		  
-      		  <button type="sub,it" className= "btn btn-success">LogIn Now</button>
-      	</form>
-      	</div>
+		
 		</div>
 		 );
        }
@@ -77,7 +92,7 @@
 		<div class="row">
 <h4>Welcome To Our Page..... Please Provide Your Login Details....</h4>	
 		
-		<div id="reactLogInContainer"></div>		
+		<div id="reactLogInContainer" class="myDiv"></div>		
 			
 			</div>
 		
