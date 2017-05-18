@@ -27,6 +27,11 @@ app.get('/', (req, res) => {
 res.render('home.ejs')
 })
 
+app.get('/registraionPage', (req, res) => {
+res.render('registration.ejs')
+})
+
+
 app.get('/getUserName', (req, res) => {
 	var response2={};
 	response2.username=userName;
@@ -43,8 +48,8 @@ res.render('File.ejs')
 })
 
 app.post('/logIn', (req, res) => {
-	//console.log(req.body.username);
-	db.collection('login').findOne({username: req.body.username,password:req.body.password},
+	console.log(req.body.username);
+	db.collection('login').findOne({uName: req.body.username,reg_password:req.body.password},
 (err, result) => {
 if (err) return res.send(500, err)
 console.log(result)
@@ -60,10 +65,48 @@ else{
 })
 })
 
+app.post('/registration', (req, res) => {
+	//console.log(req.body.username);
+	var flag="";
+	db.collection('login').findOne({uName: req.body.username},
+								  (err,result)=>{
+		if(err) return res.send(500,err)
+		flag=result;
+	})
+	
+	if(flag!=null)
+		{
+			let op={};
+			op.status="Sorry.....Username Already Used, Please Choose Different One....";
+			console.log("Username Already Used");
+			res.send(op)
+		}
+	else
+		{
+			
+			db.collection('login').save(req.body,
+(err, result) => {
+if (err) return res.send(500, err)
+console.log(result)
+if(result==null)
+	{
+		res.render('File.ejs')
+	}
+else{
+	//userName=result.username;
+	//console.log(userName);
+	res.render('home.ejs')
+}		
+})		
+		}
+})
+
+
+
 
 app.post('/tasks', (req, res) => {
 var d = new Date();
-	console.log(req.body.deadline)
+	//console.log(req.body.deadline)
 var month=parseInt(d.getMonth())+1;
 req.body.sdate=d.getFullYear()+"-"+month+"-"+d.getDate();
 db.collection('tasks').save(req.body, (err, result) => {
@@ -90,7 +133,7 @@ res.send(result)
 })
 
 app.get('/getCompletedTasks/', (req, res) => {
-	console.log(req.query.uName);
+	//console.log(req.query.uName);
 db.collection('completedTask').find({username:req.query.uName}).toArray((err, result) => {
 if (err) return console.log(err)
 res.send(result)
@@ -134,3 +177,7 @@ console.log(result);
 res.send(result)
 })
 })
+
+app.get('*', (req, res) => {
+  res.render('File.ejs');
+});

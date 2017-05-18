@@ -147,13 +147,13 @@ var ToDoForm = React.createClass({
       	<div className="col-md-9 col-xs-12">
       	<form>
       	<div className="form-group">
-      	<h4>{this.state.uName},What do you want to do today?</h4> <a onClick={this.logOut}>LogOut</a>
+      	<h4>{this.state.uName},What needs to be done?</h4> <a onClick={this.logOut}>LogOut</a>
              <input type="text" ref={(a) => this._inputElement = a} className="form-control" placeholder="ex- buy new smartphone for friend" name="uname">
                    </input>
       		  </div>
 			  
 		<div className="form-group">
-      	<h4>Expected Task Completion Date</h4>
+      	<h4>Due Date</h4>
              <input type="date" ref={(b) => this.deadline = b} className="form-control" name="pwd" >
                    </input>
       		  </div>
@@ -277,7 +277,7 @@ var ToDoForm = React.createClass({
       		{this.props.tasks.map((key) =>
       		<li className="done" key={key.key} >
       		<h6><strong>{key.text} </strong></h6>
-			<h6><strong className="deadline-date">Task Deadline <small className="deadline-date">: {key.deadline} </small> </strong><strong className="fload-right"> Task Creation Date<small>: {key.sdate} </small></strong></h6>
+			<h6><strong className="deadline-date">Due Date <small className="deadline-date">: {key.deadline} </small> </strong><strong className="fload-right"> Creation Date<small>: {key.sdate} </small></strong></h6>
       		<a className="glyphicon glyphicon-ok-circle" title="Done" onClick={this.completeTasks.bind(this,key.key,key.text,key.sdate,key.deadline)}></a>
       		<a className="glyphicon glyphicon-remove-circle" onClick={this.deleteTasks.bind(this,key.key)} title="Delete it"></a> 
         </li> )}
@@ -357,7 +357,7 @@ var ToDoForm = React.createClass({
       		{this.props.Ctasks.map((key) =>
       		<li className="done" key={key.key} >
       		<h5><strong><del>{key.text}</del></strong></h5>
-			<h6><strong className="complete-date">Completed Date:{key.completedDate}</strong><strong className="deadline-date fload-right">Deadline Date : {key.deadline} <a className="glyphicon glyphicon-remove" onClick={this.deleteCompletedTasks.bind(this,key.key)} title="Delete it"></a></strong>  </h6>
+			<h6><strong className="complete-date">Completed Date:{key.completedDate}</strong><strong className="deadline-date fload-right">Due Date : {key.deadline} <a className="glyphicon glyphicon-remove" onClick={this.deleteCompletedTasks.bind(this,key.key)} title="Delete it"></a></strong>  </h6>
         </li> )}
         </ul>
       		</section>

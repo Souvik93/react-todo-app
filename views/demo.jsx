@@ -48,7 +48,7 @@
 			</div>
 			<div className="etc-login-form">
 				<p>forgot your password? <a href="#">click here</a></p>
-				<p>new user? <a href="#">create new account</a></p>
+				<p>new user? <a href="registraionPage">create new account</a></p>
 			</div>
 		</form>
 	</div>
