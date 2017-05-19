@@ -40,11 +40,7 @@ res.send(response2);
 
 app.get('/logOut', (req, res) => {
 	userName="";
-	//response2.username=userName;
-	
-	//localStorage.removeItem("");
-	
-res.render('File.ejs')
+	res.render('File.ejs')
 })
 
 app.post('/logIn', (req, res) => {
@@ -66,47 +62,33 @@ else{
 })
 
 app.post('/registration', (req, res) => {
-	//console.log(req.body.username);
-	var flag="";
-	db.collection('login').findOne({uName: req.body.username},
+	db.collection('login').findOne({uName: req.body.uName},
 								  (err,result)=>{
 		if(err) return res.send(500,err)
 		flag=result;
-	})
-	
-	if(flag!=null)
+if(result==null)
 		{
-			let op={};
-			op.status="Sorry.....Username Already Used, Please Choose Different One....";
-			console.log("Username Already Used");
-			res.send(op)
-		}
-	else
-		{
-			
 			db.collection('login').save(req.body,
 (err, result) => {
 if (err) return res.send(500, err)
-console.log(result)
-if(result==null)
-	{
-		res.render('File.ejs')
-	}
-else{
-	//userName=result.username;
-	//console.log(userName);
-	res.render('home.ejs')
-}		
-})		
-		}
+
+res.send(result);
+
 })
+		}	
+else
+{
+	let op={};
+	op.status="Failed";
+	op.msg=" Sorry! Registration Failed ... Username Already Taken .. Please Try With Different One....";
+	res.send(op);
 
+}
 
-
-
+})
+})
 app.post('/tasks', (req, res) => {
 var d = new Date();
-	//console.log(req.body.deadline)
 var month=parseInt(d.getMonth())+1;
 req.body.sdate=d.getFullYear()+"-"+month+"-"+d.getDate();
 db.collection('tasks').save(req.body, (err, result) => {
@@ -123,7 +105,6 @@ res.send(result)
 })
 })
 app.get('/getTasks/:uName', (req, res) => {
-	console.log(req.params.uName);
 db.collection('tasks').find({username:req.params.uName}).toArray((err, result) => {
 if (err) return console.log(err)
 
@@ -133,7 +114,6 @@ res.send(result)
 })
 
 app.get('/getCompletedTasks/', (req, res) => {
-	//console.log(req.query.uName);
 db.collection('completedTask').find({username:req.query.uName}).toArray((err, result) => {
 if (err) return console.log(err)
 res.send(result)
@@ -181,3 +161,4 @@ res.send(result)
 app.get('*', (req, res) => {
   res.render('File.ejs');
 });
+

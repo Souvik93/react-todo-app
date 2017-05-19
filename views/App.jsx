@@ -3,8 +3,6 @@ var ToDoForm = React.createClass({
 	   
 	   if(localStorage.getItem("username")==null)
 	   window.location="/";
-	   
-	  //console.log(localStorage.getItem("username"));
 	   this.setState({
       uName: localStorage.getItem("username")
        });
@@ -46,7 +44,6 @@ var ToDoForm = React.createClass({
          if (response.ok) return response.json()
        })
        .then(data => {
-	    //element.style.display="block";
 		loadScreen.style.display="none";
 	    var element = document.getElementById('id');
   element.style.display = "block";
@@ -67,10 +64,6 @@ var ToDoForm = React.createClass({
       },
       
       getTasks: function(e){
-	  //console.log("Get task method");
-	  
-	  
-	  
       var url="getTasks/"+localStorage.getItem("username");
       fetch(url, {
          method: 'get',
@@ -95,8 +88,6 @@ var ToDoForm = React.createClass({
       taskDetails: data
        });
 	   }
-       
-       //console.log(this.state.taskDetails)
        })
       
       },
@@ -126,8 +117,6 @@ var ToDoForm = React.createClass({
       CtaskDetails: data
        });
 	   }
-       
-       //console.log("Hello"+this.state.CtaskDetails)
        })
       
       },
@@ -139,9 +128,6 @@ var ToDoForm = React.createClass({
 	  },
 	 
       render: function() {
-	  //console.log("Hello"+this.state.CtaskDetails);
-      
-      //this.CgetTasks();
       return (
       	<div>
       	<div className="col-md-9 col-xs-12">
@@ -192,8 +178,6 @@ var ToDoForm = React.createClass({
          if (response.ok) return response.json()
        })
        .then(data => {
-       //alert("task deleted");
-       //console.log(this.state.taskDetails)
 	    this.props.getTasks();
        })
       
@@ -257,7 +241,6 @@ var ToDoForm = React.createClass({
 	  
 	  },
       render: function(){
-      			//console.log(this.props.tasks);
       		  var todoEntries = this.props.tasks;
       		function createTasks(item) {
            return <li key={item.key}>{item.text}</li>
@@ -297,7 +280,6 @@ var ToDoForm = React.createClass({
 	   
 	   
        deleteCompletedTasks: function(e){
-       //console.log(e);
       fetch('completedTasks', {
          method: 'delete',
          headers: {'Content-Type': 'application/json'},
@@ -316,8 +298,7 @@ var ToDoForm = React.createClass({
       
       },
 	  deleteAllCompletedTasks: function(e){
-       //console.log(e);
-	   var loadScreen = document.getElementById('loaderForCompleteTask');
+	  var loadScreen = document.getElementById('loaderForCompleteTask');
 		var element = document.getElementById('csec');
 		var Belement = document.getElementById('acsec')
 		element.style.display="none";

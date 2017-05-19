@@ -1,19 +1,13 @@
  var LogIn = React.createClass({ 
 	   componentWillMount: function() {
       //this.getTasks()
-	  
-	  console.log("Hello");
+	
 	  
    },
 
  
       
-      logIn: function(e){
-	  console.log("Hello World");
-	  
-	  
-      	
-         
+      logIn: function(e){    
 		 var x=document.getElementById("uname").value;
 		 localStorage.setItem("username", x);
 		 //console.log(x);
