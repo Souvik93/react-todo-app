@@ -12,7 +12,7 @@
       registration: function(e){
 	  console.log("Hello World");
 
-	
+	console.log(this.phnNo.value)
 
 	  fetch('registration', {
          method: 'post',
@@ -23,7 +23,7 @@
 		   'reg_password':this.reg_password.value,
 		   'email':this.email.value,
 		   'fullName':this.fullName.value,
-		   'phnNo':this.phnNo.valuel
+		   'phnNo':this.phnNo.value
          })
        })
        .then(response => {
@@ -31,11 +31,10 @@
        })
        .then(data => {
 		
-		
+		console.log(data);
 
-		if(data.status=="Failed")
+		if(data.status=="Failed" || data.status=="Wrong Value")
 		{
-
 			this.setState({
       msg: data.msg
        });

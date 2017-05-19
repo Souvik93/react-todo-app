@@ -62,7 +62,20 @@ else{
 })
 
 app.post('/registration', (req, res) => {
-	db.collection('login').findOne({uName: req.body.uName},
+
+	//console.log("Hiiiiii"+req.body.phnNo);
+
+	if(req.body.uName=="" || req.body.phnNo.length<10)
+	{
+		let op={};
+		op.msg="Invalid Value!! You have not provided any value in UserName or Your Mobile No is Invalid";
+		op.status="Wrong Value";
+		res.send(op);
+	}
+
+	else{
+
+			db.collection('login').findOne({uName: req.body.uName},
 								  (err,result)=>{
 		if(err) return res.send(500,err)
 		flag=result;
@@ -86,6 +99,9 @@ else
 }
 
 })
+	}
+
+
 })
 app.post('/tasks', (req, res) => {
 var d = new Date();
