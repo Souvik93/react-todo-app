@@ -1,0 +1,20 @@
+//Push to new git repository
+
+1> git init
+2> git add .
+3> git commit -m "First Commit"
+4> git remote add origin "remote repository URL"
+5> git push origin master
+
+//Push updated file
+
+1> git commit -am "Updated Project"
+2> git push origin master
+
+//Add Untracked Files
+
+1> git add -A
+
+//Set updated origin
+
+1> git remote set-url origin "git@github.com:ppreyer/first_app.git"
